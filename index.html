@@ -26,8 +26,8 @@
           <label for="playerID"></label>
           <input type="text" id="playerID" value="" style="display: none;">
 
-          <label for="playerID2"></label>
-          <input type="text" id="playerID2" value="" style="display: none;">
+          <!-- <label for="playerID2"></label>
+          <input type="text" id="playerID2" value="" style="display: none;"> -->
 
           <button onclick="crearJuego(event),openPage('page2')"style="margin-top: 10px;">Iniciar Juego</button><br>
           <label for="salaId"style="margin-top: 10px;">O bien, unéte a una sala</label>
@@ -238,7 +238,7 @@
             actualizarElemento('');
             //document.getElementById('result').innerHTML = data['id'] + ' = ' + data['players'][1]['name']
             document.getElementById('playerID').value = data['players'][0]['id']
-            document.getElementById('playerID2').value = data['players'][1]['id']
+            document.getElementById('playerID').value = data['players'][1]['id']
           });
       }
 
