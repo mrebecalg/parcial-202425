@@ -179,10 +179,17 @@
       const input1 = document.getElementById('namePlayer');
       const input2 = document.getElementById('namePlayerDisplay');
 
-      // Esto es para que se muestre el id en la siguiente pagina
+      // Esto es para que se muestre el nombre en la siguiente pagina
 
       input1.addEventListener('input', () => {
         input2.value = input1.value;
+      });
+
+      const inputUnirseId = document.getElementById('salaId');
+      const inputId = document.getElementById('gameId');
+
+      inputUnirseId.addEventListener('input', () => {
+        inputId.value = inputUnirseId.value;
       });
 
       function validarInput() {
