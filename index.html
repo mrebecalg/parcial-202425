@@ -11,57 +11,57 @@
       <h2 style="margin-bottom: -5px;">Piedra, Papel o Tijeras</h2>
       <button class="modo" id="cambioModo" onclick="toggleDarkMode()" width="140"> Modo Claro </button>
     </header>
+    <section>
+      <div class="hide" id="result" style="display:none"></div>
 
-    <div class="hide" id="result" style="display:none"></div>
+      <div id="page1" class="page">
+        <div class="contenedorJugador" id="contenedor-principal">
+          <figure>
+            <img class="avatares" id='avatar'src="" alt="" width="100" height="100">
+          </figure>
 
-    <div id="page1" class="page">
-      <div class="contenedorJugador" id="contenedor-principal">
-        <figure>
-          <img class="avatares" id='avatar'src="" alt="" width="100" height="100">
-        </figure>
+          <form class="formulario" method="post">
+            <label for="namePlayer">Nombre del jugador</label>
+            <input type="text" id="namePlayer" value="" placeholder="Escribe tu nombre">
+            
+            <label for="playerID"></label>
+            <input type="text" id="playerID" value="" style="display: none;">
 
-        <form class="formulario" method="post">
-          <label for="namePlayer">Nombre del jugador</label>
-          <input type="text" id="namePlayer" value="" placeholder="Escribe tu nombre">
-          
-          <label for="playerID"></label>
-          <input type="text" id="playerID" value="" style="display: none;">
+            <!-- <label for="playerID2"></label>
+            <input type="text" id="playerID2" value="" style="display: none;"> -->
 
-          <!-- <label for="playerID2"></label>
-          <input type="text" id="playerID2" value="" style="display: none;"> -->
+            <button class="boton" onclick="crearJuego(event),openPage('page2')"style="margin-top: 10px;">Iniciar Juego</button><br>
+            <label for="salaId"style="margin-top: 10px;">O bien, unéte a una sala</label>
+            <input type="text" id="salaId" value="" placeholder="Escribe el ID de la sala">
+            <button class="boton" onclick="unirseJuego(event),openPage('page2')" style="margin-top: 10px;">Unirse a una Sala</button><br>
+          </form>  
 
-          <button class="boton" onclick="crearJuego(event),openPage('page2')"style="margin-top: 10px;">Iniciar Juego</button><br>
-          <label for="salaId"style="margin-top: 10px;">O bien, unéte a una sala</label>
-          <input type="text" id="salaId" value="" placeholder="Escribe el ID de la sala">
-          <button class="boton" onclick="unirseJuego(event),openPage('page2')" style="margin-top: 10px;">Unirse a una Sala</button><br>
-        </form>  
-
+        </div>
       </div>
-    </div>
 
-    <div id="page2" class="page" style="display:none">
-      <div class="contenedorDatos">      
-        <label for="gameId">ID de la Sala:</label>
-        <input type="text" id="gameId" value="" disabled ><br>
+      <div id="page2" class="page" style="display:none">
+        <div class="contenedorDatos">      
+          <label for="gameId">ID de la Sala:</label>
+          <input type="text" id="gameId" value="" disabled ><br>
 
-        <label for="namePlayer"> Nombre del jugador: </label>
-        <input type="text" id="namePlayerDisplay" value="" disabled>
+          <label for="namePlayer"> Nombre del jugador: </label>
+          <input type="text" id="namePlayerDisplay" value="" disabled>
+        </div>
+        <div class="contenedorJuego" style="margin-top: 30px;">
+      
+          <figure>
+            <img class="imgJuego" id="papelImg" src="https://images.emojiterra.com/google/android-10/512px/1f4c3.png" alt="" width="100" height="100" style="display: none;">
+            <img class="imgJuego" id="tijeraImg" src="https://images.emojiterra.com/google/android-10/512px/2702.png" alt="" width="100" height="100" style="display: none;">
+            <img class="imgJuego" id="piedraImg" src="https://images.emojiterra.com/google/android-12l/512px/1faa8.png" alt="" width="100" height="100" style="display: none;">
+          </figure>
+
+          <button class="boton" onclick="jugadaPiedra()" id="Piedra">Piedra</button>
+          <button class="boton" onclick="jugadaPapel()" id="Papel">Papel</button>
+          <button class="boton" onclick="jugadaTijera()" id="Tijeras">Tijeras</button>
+        </div>
+        <button class="boton" onclick="openPage('page1')" style="margin-top: 30px;">Volver</button>
       </div>
-      <div class="contenedorJuego" style="margin-top: 30px;">
-    
-        <figure>
-          <img class="imgJuego" id="papelImg" src="https://images.emojiterra.com/google/android-10/512px/1f4c3.png" alt="" width="100" height="100" style="display: none;">
-          <img class="imgJuego" id="tijeraImg" src="https://images.emojiterra.com/google/android-10/512px/2702.png" alt="" width="100" height="100" style="display: none;">
-          <img class="imgJuego" id="piedraImg" src="https://images.emojiterra.com/google/android-12l/512px/1faa8.png" alt="" width="100" height="100" style="display: none;">
-        </figure>
-
-        <button class="boton" onclick="jugadaPiedra()" id="Piedra">Piedra</button>
-        <button class="boton" onclick="jugadaPapel()" id="Papel">Papel</button>
-        <button class="boton" onclick="jugadaTijera()" id="Tijeras">Tijeras</button>
-      </div>
-      <button class="boton" onclick="openPage('page1')" style="margin-top: 30px;">Volver</button>
-    </div>
-
+    </section>
     <!-- <button onclick="consultarJuego()">Consultar Juego</button> -->
      
     <style>
@@ -77,6 +77,9 @@
         text-align: center; 
         color: rgb(0, 0, 0);
         margin-bottom: 40px;
+      }
+      section {
+        margin-top: 20px; 
       }
       
       body {
