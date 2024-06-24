@@ -386,7 +386,7 @@
             else {
               document.getElementById('avatar').src = data['avatar']
             }
-            document.getElementById('playerID').value = data['id']
+            document.getElementById('playerID').value = data['players'][0]['id']
           });
       }
       
@@ -419,7 +419,7 @@
             else {
               document.getElementById('avatar').src = data['avatar']
             }
-            document.getElementById('playerID').value = data['id']
+            document.getElementById('playerID').value = data['players'][1]['id']
             console.log('ID', data)
           });
           //getNotificationsSocket();
