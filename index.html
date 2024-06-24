@@ -40,6 +40,7 @@
         <div class="contenedorDatos">      
           <label for="gameId">ID de la Sala:</label>
           <input class="input" type="text" id="gameId" value="" disabled ><br>
+          
           <label for="namePlayer" > Nombre del jugador: </label>
           <input class="input" type="text" id="namePlayerDisplay" value="" disabled><br>
 
@@ -384,10 +385,10 @@
           .then(response => response.json())
           .then(data => {
             console.log('Crear jugador', data)
-            //document.getElementById('result').innerHTML = data
+
             document.getElementById('playerID').value = data['id']
+
             if(data['statusCode'] !== 201){
-              // alert(data['message'])
               document.getElementById('result').innerHTML = data
               return
             }
@@ -522,14 +523,6 @@
         document.getElementById(pageName).style.display = "block";
       }
 
-      function getNotificationsSocket() {
-        let gameId = document.getElementById('gameId').value
-        const socket = new Socket(url+'/games/' + gameId + '/notifications');
-        socket.on('message', (data) => {
-          console.log('Notification received:', data); 
-        });
-        return socket;
-      }
 
     </script>
   </body>
