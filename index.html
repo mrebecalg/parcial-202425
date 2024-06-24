@@ -450,6 +450,67 @@
         imagenActual = id;
       }
 
+      function jugadaPiedra(){
+        cambiarImagen('piedraImg');
+        let playerId = document.getElementById('playerID').value
+        let gameId = document.getElementById('gameId').value
+        
+        fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "next": "R"
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Ha jugado piedra', data)
+          });
+      }
+
+      function jugadaPapel(){
+        cambiarImagen('papelImg');
+        let playerId = document.getElementById('playerID').value
+        let gameId = document.getElementById('gameId').value
+
+        fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "next": "P"
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Ha jugado papel', data)
+          });
+      }
+
+      function jugadaTijera(){
+        cambiarImagen('tijeraImg');
+        let playerId = document.getElementById('playerID').value
+        let gameId = document.getElementById('gameId').value
+
+        fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "next": "S"
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Ha jugado tijera', data)
+          });
+      }
+      
+
       generarAvatarAleatorio();
 
       function openPage(pageName) {
