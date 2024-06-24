@@ -17,7 +17,7 @@
       <div class="contenedorJugador">
         <!-- Jugador 1 -->
         <figure>
-          <img id='avatar'src="" alt="" width="100" height="100">
+          <img class="avatares" id='avatar'src="" alt="" width="100" height="100">
         </figure>
         <label for="namePlayer1">Nombre del jugador</label>
         <input type="text" id="namePlayer1" value="">
@@ -27,10 +27,26 @@
     </div>
 
     <div id="page2" class="page" style="display:none">
-      <div class="contenedorJuego">      
+      <div class="contenedorDatos">      
         <label for="gameId">ID de la Sala:</label>
-        <input type="text" id="gameId" value="" disabled><br> 
+        <input type="text" id="gameId" value="" disabled ><br>
+
+        <label for="namePlayer1"> Nombre del jugador: </label>
+        <input type="text" id="namePlayerDisplay" value="" disabled>
       </div>
+      <div class="contenedorJuego" style="margin-top: 30px;">
+    
+        <figure>
+          <img class="imgJuego" id="papelImg" src="https://images.emojiterra.com/google/android-10/512px/1f4c3.png" alt="" width="100" height="100" style="display: none;">
+          <img class="imgJuego" id="tijeraImg" src="https://images.emojiterra.com/google/android-10/512px/2702.png" alt="" width="100" height="100" style="display: none;">
+          <img class="imgJuego" id="piedraImg" src="https://images.emojiterra.com/google/android-12l/512px/1faa8.png" alt="" width="100" height="100" style="display: none;">
+        </figure>
+
+        <button onclick="jugadaPiedra()" id="Piedra">Piedra</button>
+        <button onclick="jugadaPapel()" id="Papel">Papel</button>
+        <button onclick="jugadaTijera()" id="Tijeras">Tijeras</button>
+      </div>
+      <button onclick="openPage('page1')" style="margin-top: 30px;">Volver</button>
     </div>
 
     <!-- Jugador 2 -->
@@ -70,6 +86,14 @@
             margin: 0;
       }
 
+      .page {
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+      }
+
       .contenedorJugador {
             text-align: center;
             background: darksalmon;
@@ -84,6 +108,18 @@
             height: 300px;
       }
 
+      .contenedorDatos{
+            text-align: center;
+            background: rgba(255, 255, 255, 0.381);
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.589);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+      }
+
       .contenedorJuego{
             text-align: center;
             background: rgba(255, 255, 255, 0.381);
@@ -93,6 +129,9 @@
       }
 
       input {
+        font-size: 16px;
+        font-weight: bold;  
+        text-align: center; 
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 50px;
@@ -116,9 +155,14 @@
         animation: pulsate 1s infinite;
       }
 
-      img {
+      .avatares {
         border: 4px solid #ddd;
         border-radius: 10px; 
+      }
+
+      .imgJuego{
+        display: block;
+        margin: 0 auto;
       }
 
     </style>
@@ -129,6 +173,13 @@
       const url = 'https://parcial-202425-production.up.railway.app'
       let gameId = null;
       let playerId = null;
+
+      const input1 = document.getElementById('namePlayer1');
+      const input2 = document.getElementById('namePlayerDisplay');
+
+      input1.addEventListener('input', () => {
+        input2.value = input1.value;
+      });
 
       function actualizarElemento(gameId){
         document.getElementById('result').innerHTML = gameId
@@ -216,42 +267,60 @@
           });
       }
       
-      function crearJugador2(){
-        let nombre = document.getElementById('namePlayer2').value
-        let gameId = document.getElementById('gameId').value
-        let avatar = document.getElementById('avatar').src
+      // function crearJugador2(){
+      //   let nombre = document.getElementById('namePlayer2').value
+      //   let gameId = document.getElementById('gameId').value
+      //   let avatar = document.getElementById('avatar').src
 
-        console.log('nombre jugador 2', nombre)
-        console.log('gameId', gameId)
+      //   console.log('nombre jugador 2', nombre)
+      //   console.log('gameId', gameId)
 
-        fetch(`${url}/games/${gameId}/players`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            "name": nombre,
-            "avatar": avatar
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Crear jugador', data)
-            // document.getElementById('result').innerHTML = data
+      //   fetch(`${url}/games/${gameId}/players`, {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json'
+      //     },
+      //     body: JSON.stringify({
+      //       "name": nombre,
+      //       "avatar": avatar
+      //     })
+      //   })
+      //     .then(response => response.json())
+      //     .then(data => {
+      //       console.log('Crear jugador', data)
+      //       // document.getElementById('result').innerHTML = data
 
-            if(data['statusCode'] !== 201){
-              // alert(data['message'])
-              document.getElementById('result').innerHTML = data
-              return
-            }
-            else {
-              document.getElementById('avatar').src = data['avatar']
-            }
-          });
+      //       if(data['statusCode'] !== 201){
+      //         // alert(data['message'])
+      //         document.getElementById('result').innerHTML = data
+      //         return
+      //       }
+      //       else {
+      //         document.getElementById('avatar').src = data['avatar']
+      //       }
+      //     });
+      // }
+
+      let imagenActual;
+      function cambiarImagen(id) {
+        ocultarImagenes();
+        mostrarImagen(id);
       }
 
-       
+      function ocultarImagenes() {
+        if(imagenActual) {
+          document.getElementById(imagenActual).style.display = 'none';
+        }
+      }
+
+      function mostrarImagen(id) {
+        document.getElementById(id).style.display = 'block';
+        imagenActual = id;
+      }
+
       function jugadaPiedra(){
+        cambiarImagen('piedraImg');
+        //document.getElementById("piedraImg").style.display = "block"; 
         let playerId = document.getElementById('player1Id').value
         let gameId = document.getElementById('gameId').value
         fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
@@ -270,6 +339,8 @@
       }
 
       function jugadaPapel(){
+        cambiarImagen('papelImg');
+        //document.getElementById("papelImg").style.display = "block";
         let playerId = document.getElementById('player1Id').value
         let gameId = document.getElementById('gameId').value
         fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
@@ -288,6 +359,8 @@
       }
 
       function jugadaTijera(){
+        cambiarImagen('tijeraImg');
+       // document.getElementById("tijeraImg").style.display = "block";
         let playerId = document.getElementById('player1Id').value
         let gameId = document.getElementById('gameId').value
         fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
