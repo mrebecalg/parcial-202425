@@ -385,8 +385,8 @@
             }
             else {
               document.getElementById('avatar').src = data['avatar']
+              document.getElementById('playerID').value = data['players'][0]['id']
             }
-            document.getElementById('playerID').value = data['players'][0]['id']
           });
       }
       
