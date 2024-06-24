@@ -22,7 +22,6 @@
         <form class="formulario" method="post">
           <label for="namePlayer">Nombre del jugador</label>
           <input type="text" id="namePlayer" value="" placeholder="Escribe tu nombre">
-          <label for="namePlayer" id="playerID"></label>
           <button onclick="crearJuego(event),openPage('page2')"style="margin-top: 10px;">Iniciar Juego</button><br>
           <label for="salaId"style="margin-top: 10px;">O bien, unéte a una sala</label>
           <input type="text" id="salaId" value="" placeholder="Escribe el ID de la sala">
@@ -323,6 +322,7 @@
             }
           });
           getNotificationsSocket(gameId);
+          consultarJuego();
       }
 
       let imagenActual;
