@@ -24,9 +24,6 @@
             <label for="namePlayer">Nombre del jugador</label>
             <input type="text" id="namePlayer" value="" placeholder="Escribe tu nombre">
             
-            <label for="playerID"></label>
-            <input type="text" id="playerID" value="" style="display: none;">
-
             <!-- <label for="playerID2"></label>
             <input type="text" id="playerID2" value="" style="display: none;"> -->
 
@@ -42,10 +39,13 @@
       <div id="page2" class="page" style="display:none">
         <div class="contenedorDatos">      
           <label for="gameId">ID de la Sala:</label>
-          <input type="text" id="gameId" value="" disabled ><br>
+          <input class="input" type="text" id="gameId" value="" disabled ><br>
+          <label for="namePlayer" > Nombre del jugador: </label>
+          <input class="input" type="text" id="namePlayerDisplay" value="" disabled><br>
 
-          <label for="namePlayer"> Nombre del jugador: </label>
-          <input type="text" id="namePlayerDisplay" value="" disabled>
+          <label for="playerID">ID del Jugador:</label>
+          <input class="input" type="text" id="playerID" value="" disabled>
+
         </div>
         <div class="contenedorJuego" style="margin-top: 30px;">
       
@@ -92,7 +92,11 @@
             background-repeat: no-repeat;
             background-position: center;
             margin: 0;
-            background-image: linear-gradient(to top, rgba(162, 80, 50, 0.882) 0%, rgba(186, 46, 201, 0.7) 100%), url(https://wallpapers.com/images/high/minimalist-black-and-white-pattern-u1nlgbrj2q1g8p84.webp);
+            background-image: linear-gradient(to top, rgba(162, 80, 50, 0.882) 0%, rgba(98, 46, 201, 0.7) 100%), url(https://wallpapers.com/images/high/minimalist-black-and-white-pattern-u1nlgbrj2q1g8p84.webp);
+      }
+
+      .input{
+        background: rgb(211, 199, 255);
       }
 
       .page {
@@ -126,7 +130,7 @@
 
       .contenedorDatos{
             text-align: center;
-            background: rgba(255, 255, 255, 0.381);
+            background: rgba(255, 255, 255, 0.83);
             padding: 20px;
             border-radius: 30px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.589);
@@ -138,7 +142,7 @@
 
       .contenedorJuego{
             text-align: center;
-            background: rgba(255, 255, 255, 0.381);
+            background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 30px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.589);
@@ -157,7 +161,7 @@
             font-size: 16px;
             width: 150px;
             padding: 10px;;
-            background-color: #8948b5;
+            background-color: #8257d7;
             border: 1px solid #000000;
             border-radius: 100px;
             color: white;
@@ -380,8 +384,8 @@
           .then(response => response.json())
           .then(data => {
             console.log('Crear jugador', data)
-            // document.getElementById('result').innerHTML = data
-
+            //document.getElementById('result').innerHTML = data
+            document.getElementById('playerID').value = data['id']
             if(data['statusCode'] !== 201){
               // alert(data['message'])
               document.getElementById('result').innerHTML = data
@@ -389,7 +393,6 @@
             }
             else {
               document.getElementById('avatar').src = data['avatar']
-              document.getElementById('playerID').value = data['players'][0]['id']
             }
           });
       }
@@ -416,17 +419,18 @@
           .then(response => response.json())
           .then(data => {
             console.log('El jugador se unió a la sala', data)
+
+            document.getElementById('playerID').value = data['id']
+
             if(data['statusCode'] !== 201){
               document.getElementById('result').innerHTML = data
               return
             }
             else {
               document.getElementById('avatar').src = data['avatar']
-              document.getElementById('playerID').value = data['players'][1]['id']
             }
             console.log('ID', data)
           });
-          //getNotificationsSocket();
       }
 
       let imagenActual;
@@ -446,66 +450,6 @@
         imagenActual = id;
       }
 
-      function jugadaPiedra(){
-        cambiarImagen('piedraImg');
-        let playerId = document.getElementById('playerID').value
-        let gameId = document.getElementById('gameId').value
-        
-        fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            "next": "R"
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Ha jugado piedra', data)
-          });
-      }
-
-      function jugadaPapel(){
-        cambiarImagen('papelImg');
-        let playerId = document.getElementById('playerID').value
-        let gameId = document.getElementById('gameId').value
-
-        fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            "next": "P"
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Ha jugado papel', data)
-          });
-      }
-
-      function jugadaTijera(){
-        cambiarImagen('tijeraImg');
-        let playerId = document.getElementById('playerID').value
-        let gameId = document.getElementById('gameId').value
-
-        fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            "next": "S"
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Ha jugado tijera', data)
-          });
-      }
-      
       generarAvatarAleatorio();
 
       function openPage(pageName) {
