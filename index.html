@@ -6,15 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> Piedra, Papel y Tijeras </title>
   </head>
-  <body>
+  <body class="cuerpo" id="body">
     <header class="header">
-      <h2>Piedra, Papel y Tijeras</h2>
+      <h2 style="margin-bottom: -5px;">Piedra, Papel o Tijeras</h2>
+      <button class="modo" id="cambioModo" onclick="toggleDarkMode()" width="140"> Modo Claro </button>
     </header>
 
     <div class="hide" id="result" style="display:none"></div>
 
     <div id="page1" class="page">
-      <div class="contenedorJugador">
+      <div class="contenedorJugador" id="contenedor-principal">
         <figure>
           <img class="avatares" id='avatar'src="" alt="" width="100" height="100">
         </figure>
@@ -29,10 +30,10 @@
           <!-- <label for="playerID2"></label>
           <input type="text" id="playerID2" value="" style="display: none;"> -->
 
-          <button onclick="crearJuego(event),openPage('page2')"style="margin-top: 10px;">Iniciar Juego</button><br>
+          <button class="boton" onclick="crearJuego(event),openPage('page2')"style="margin-top: 10px;">Iniciar Juego</button><br>
           <label for="salaId"style="margin-top: 10px;">O bien, unéte a una sala</label>
           <input type="text" id="salaId" value="" placeholder="Escribe el ID de la sala">
-          <button onclick="unirseJuego(event),openPage('page2')" style="margin-top: 10px;">Unirse a una Sala</button><br>
+          <button class="boton" onclick="unirseJuego(event),openPage('page2')" style="margin-top: 10px;">Unirse a una Sala</button><br>
         </form>  
 
       </div>
@@ -54,22 +55,23 @@
           <img class="imgJuego" id="piedraImg" src="https://images.emojiterra.com/google/android-12l/512px/1faa8.png" alt="" width="100" height="100" style="display: none;">
         </figure>
 
-        <button onclick="jugadaPiedra()" id="Piedra">Piedra</button>
-        <button onclick="jugadaPapel()" id="Papel">Papel</button>
-        <button onclick="jugadaTijera()" id="Tijeras">Tijeras</button>
+        <button class="boton" onclick="jugadaPiedra()" id="Piedra">Piedra</button>
+        <button class="boton" onclick="jugadaPapel()" id="Papel">Papel</button>
+        <button class="boton" onclick="jugadaTijera()" id="Tijeras">Tijeras</button>
       </div>
-      <button onclick="openPage('page1')" style="margin-top: 30px;">Volver</button>
+      <button class="boton" onclick="openPage('page1')" style="margin-top: 30px;">Volver</button>
     </div>
 
     <!-- <button onclick="consultarJuego()">Consultar Juego</button> -->
      
     <style>
-      header {   
-        background-color:rgba(255, 255, 255, 0.489);
+      .header {   
+        background-color:rgba(255, 255, 255, 0.797);
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
+        height: 140px;
         box-sizing: border-box;
         line-height: 50px;  
         text-align: center; 
@@ -82,8 +84,11 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(to top, rgba(162, 80, 50, 0.882) 0%, rgba(186, 46, 201, 0.7) 100%);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
             margin: 0;
+            background-image: linear-gradient(to top, rgba(162, 80, 50, 0.882) 0%, rgba(186, 46, 201, 0.7) 100%), url(https://wallpapers.com/images/high/minimalist-black-and-white-pattern-u1nlgbrj2q1g8p84.webp);
       }
 
       .page {
@@ -96,7 +101,7 @@
 
       .contenedorJugador {
             text-align: center;
-            background: darksalmon;
+            background: rgb(233, 150, 122);
             padding: 20px;
             border-radius: 50px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.589);
@@ -136,41 +141,101 @@
       }
 
       input {
-        font-size: 16px;
-        font-weight: bold;  
-        text-align: center; 
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;  
+            text-align: center; 
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 50px;
       }
       
-      button {
-        font-size: 16px;
-        width: 150px;
-        padding: 10px;;
-        background-color: #3f1b81;
-        border: 1px solid #000000;
-        border-radius: 100px;
-        color: white;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.597), 0 1px 2px rgba(0,0,0,0.24);
+      .boton {
+            font-size: 16px;
+            width: 150px;
+            padding: 10px;;
+            background-color: #8948b5;
+            border: 1px solid #000000;
+            border-radius: 100px;
+            color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.597), 0 1px 2px rgba(0,0,0,0.24);
       }
-      button:hover {
-        background-color: #af5cdc;
-      }
-
-      button:focus {
-        animation: pulsate 1s infinite;
+      .boton:hover {
+            background-color: #af5cdc;
+            border: 1px solid #211313;
       }
 
       .avatares {
-        border: 4px solid #ddd;
-        border-radius: 10px; 
+            border: 4px solid #ddd;
+            border-radius: 10px; 
       }
 
       .imgJuego{
-        display: block;
-        margin: 0 auto;
+            display: block;
+            margin: 0 auto;
       }
+
+      .modo{
+            font-size: 16px;
+            width: 150px;
+            padding: 10px;;
+            background-color: #ffffff;
+            border: 1px solid #000000;
+            border-radius: 100px;
+            color: rgb(0, 0, 0);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.597), 0 1px 2px rgba(0,0,0,0.24);
+      }
+
+      .modo-claro{
+        font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to top, rgba(255, 204, 186, 0.947) 0%, rgba(247, 180, 255, 0.919) 100%);
+            margin: 0;
+
+      }
+      body.dark-mode{
+        font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(85, 6, 189, 0.707) 100%), url(https://wallpapers.com/images/high/minimalist-black-and-white-pattern-u1nlgbrj2q1g8p84.webp);
+            margin: 0;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+      }
+
+      .contenedorJugador.dark-mode {
+            text-align: center;
+            background: rgb(177, 159, 250);
+            padding: 20px;
+            border-radius: 50px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.819);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 300px;
+            height: 400px;
+      }
+      .boton.dark-mode {
+            font-size: 16px;
+            width: 150px;
+            padding: 10px;;
+            background-color: #33157a;
+            border: 1px solid #241644;
+            border-radius: 100px;
+            color: rgb(255, 255, 255);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.597), 0 1px 2px rgba(0,0,0,0.24);
+      }
+      .boton.dark-mode:hover{
+            background-color: #af5cdc;
+            border: 1px solid #211313;
+      }
+
 
     </style>
 
@@ -197,6 +262,32 @@
       inputUnirseId.addEventListener('input', () => {
         inputId.value = inputUnirseId.value;
       });
+
+      function toggleDarkMode() {
+        var body = document.getElementById('body');
+        var contenedor = document.getElementById('contenedor-principal');
+        var boton = document.getElementsByClassName('boton');
+        body.classList.toggle('dark-mode');
+        contenedor.classList.toggle('dark-mode');
+        for (var i = 0; i < boton.length; i++) {
+          boton[i].classList.toggle('dark-mode');
+        }     
+        cambiarTexto();
+      }
+
+      function cambiarTexto() {
+        var boton = document.getElementById('cambioModo');
+        
+        if (boton.innerHTML === 'Modo Oscuro') {
+          boton.innerHTML = 'Modo Claro';
+          boton.style.backgroundColor = 'white';
+          boton.style.color = 'black';
+        } else {
+          boton.innerHTML = 'Modo Oscuro';
+          boton.style.backgroundColor = 'black';
+          boton.style.color = 'white';
+        }
+      }
 
       function validarInput() {
             const nombre = document.getElementById('namePlayer');
