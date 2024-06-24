@@ -15,14 +15,20 @@
 
     <div id="page1" class="page">
       <div class="contenedorJugador">
-        <!-- Jugador 1 -->
         <figure>
           <img class="avatares" id='avatar'src="" alt="" width="100" height="100">
         </figure>
-        <label for="namePlayer1">Nombre del jugador</label>
-        <input type="text" id="namePlayer1" value="">
-        <label for="namePlayer1" id="player1Id"></label><br>
-        <button onclick="crearJuego(),openPage('page2')">Iniciar Juego</button><br>
+
+        <form class="formulario" method="post">
+          <label for="namePlayer">Nombre del jugador</label>
+          <input type="text" id="namePlayer" value="" placeholder="Escribe tu nombre">
+          <label for="namePlayer" id="playerID"></label>
+          <button onclick="crearJuego(event),openPage('page2')"style="margin-top: 10px;">Iniciar Juego</button><br>
+          <label for="salaId"style="margin-top: 10px;">O bien, unéte a una sala</label>
+          <input type="text" id="salaId" value="" placeholder="Escribe el ID de la sala">
+          <button onclick="unirseJuego(event),openPage('page2')" style="margin-top: 10px;">Unirse a una Sala</button><br>
+        </form>  
+
       </div>
     </div>
 
@@ -31,7 +37,7 @@
         <label for="gameId">ID de la Sala:</label>
         <input type="text" id="gameId" value="" disabled ><br>
 
-        <label for="namePlayer1"> Nombre del jugador: </label>
+        <label for="namePlayer"> Nombre del jugador: </label>
         <input type="text" id="namePlayerDisplay" value="" disabled>
       </div>
       <div class="contenedorJuego" style="margin-top: 30px;">
@@ -105,7 +111,14 @@
             justify-content: center;
             align-items: center;
             width: 300px;
-            height: 300px;
+            height: 400px;
+      }
+
+      .formulario{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;     
       }
 
       .contenedorDatos{
@@ -167,6 +180,7 @@
 
     </style>
 
+  <!-- JavaScript -->
 
     <script type="text/javascript">
       
@@ -174,18 +188,32 @@
       let gameId = null;
       let playerId = null;
 
-      const input1 = document.getElementById('namePlayer1');
+      const input1 = document.getElementById('namePlayer');
       const input2 = document.getElementById('namePlayerDisplay');
+
+      // Esto es para que se muestre el id en la siguiente pagina
 
       input1.addEventListener('input', () => {
         input2.value = input1.value;
       });
 
+      function validarInput() {
+            const nombre = document.getElementById('namePlayer');
+            if (nombre.value.trim() === "") {
+                nombre.setCustomValidity("Debes escribir tu nombre");
+                nombre.reportValidity();
+                return false;
+            } else {
+                nombre.setCustomValidity("");
+        }
+      }
+
       function actualizarElemento(gameId){
         document.getElementById('result').innerHTML = gameId
       }
 
-      function crearJuego(){
+      function crearJuego(event){
+        event.preventDefault();
         fetch(`${url}/games/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' }
@@ -195,7 +223,7 @@
             console.log('Crear juego', data)
             document.getElementById('gameId').value = data['id']
             crearJugador1();
-        });
+          });
       }
 
       function consultarJuego() {
@@ -204,37 +232,38 @@
           .then(response => response.json())
           .then(data => {
             console.log(data)
-
             gameId = data['id']
-
             actualizarElemento('');
-
             //document.getElementById('result').innerHTML = data['id'] + ' = ' + data['players'][1]['name']
-            
-            document.getElementById('player1Id').value = data['players'][0]['id']
+            document.getElementById('playerID').value = data['players'][0]['id']
             document.getElementById('player2Id').value = data['players'][1]['id']
           });
       }
 
-      async function generarAvatarAleatorio(){
-        try{
-          const response = await fetch(`${url}/games/avatars`);
-          const statusCode = response.status;
-          if(!response.ok){
-            throw new Error(statusCode);
-          }
-          const avatar = await response.json();
-          if (avatar.length > 0){
-            const randomizer = avatar[Math.floor(Math.random()*avatar.length)];
-            document.getElementById('avatar').src = randomizer;
-        }
-        }catch(error){
-          throw error;
-        }
+      function generarAvatarAleatorio() {
+        return new Promise((resolve, reject) => {
+          fetch(`${url}/games/avatars`)
+            .then(response => {
+              if(!response.ok){
+                reject(new Error(response.status));
+              }
+              return response.json();
+            })
+            .then(avatar => {
+              if(avatar.length > 0){
+                const randomizer = avatar[Math.floor(Math.random()*avatar.length)];
+                document.getElementById('avatar').src = randomizer;
+                resolve();
+              }
+            })
+            .catch(error => {
+              reject(error);  
+            });
+        });
       }
 
-      function crearJugador1(){
-        let nombre = document.getElementById('namePlayer1').value
+      function crearJugador(){
+        let nombre = document.getElementById('namePlayer').value
         let gameId = document.getElementById('gameId').value
         let avatar = document.getElementById('avatar').src
 
@@ -267,39 +296,37 @@
           });
       }
       
-      // function crearJugador2(){
-      //   let nombre = document.getElementById('namePlayer2').value
-      //   let gameId = document.getElementById('gameId').value
-      //   let avatar = document.getElementById('avatar').src
+      function unirseJuego(event){
+        event.preventDefault();
+        let nombre = document.getElementById('namePlayer').value
+        let gameId = document.getElementById('salaId').value
+        let avatar = document.getElementById('avatar').src
 
-      //   console.log('nombre jugador 2', nombre)
-      //   console.log('gameId', gameId)
+        console.log('nombre jugador 2', nombre)
+        console.log('gameId', gameId)
 
-      //   fetch(`${url}/games/${gameId}/players`, {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json'
-      //     },
-      //     body: JSON.stringify({
-      //       "name": nombre,
-      //       "avatar": avatar
-      //     })
-      //   })
-      //     .then(response => response.json())
-      //     .then(data => {
-      //       console.log('Crear jugador', data)
-      //       // document.getElementById('result').innerHTML = data
-
-      //       if(data['statusCode'] !== 201){
-      //         // alert(data['message'])
-      //         document.getElementById('result').innerHTML = data
-      //         return
-      //       }
-      //       else {
-      //         document.getElementById('avatar').src = data['avatar']
-      //       }
-      //     });
-      // }
+        fetch(`${url}/games/${gameId}/players`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "name": nombre,
+            "avatar": avatar
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('El jugador se unió a la sala', data)
+            if(data['statusCode'] !== 201){
+              document.getElementById('result').innerHTML = data
+              return
+            }
+            else {
+              document.getElementById('avatar').src = data['avatar']
+            }
+          });
+      }
 
       let imagenActual;
       function cambiarImagen(id) {
@@ -320,9 +347,9 @@
 
       function jugadaPiedra(){
         cambiarImagen('piedraImg');
-        //document.getElementById("piedraImg").style.display = "block"; 
-        let playerId = document.getElementById('player1Id').value
+        let playerId = document.getElementById('playerID').value
         let gameId = document.getElementById('gameId').value
+        
         fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
           method: 'PUT',
           headers: {
@@ -340,9 +367,9 @@
 
       function jugadaPapel(){
         cambiarImagen('papelImg');
-        //document.getElementById("papelImg").style.display = "block";
-        let playerId = document.getElementById('player1Id').value
+        let playerId = document.getElementById('playerID').value
         let gameId = document.getElementById('gameId').value
+
         fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
           method: 'PUT',
           headers: {
@@ -360,9 +387,9 @@
 
       function jugadaTijera(){
         cambiarImagen('tijeraImg');
-       // document.getElementById("tijeraImg").style.display = "block";
-        let playerId = document.getElementById('player1Id').value
+        let playerId = document.getElementById('playerID').value
         let gameId = document.getElementById('gameId').value
+
         fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
           method: 'PUT',
           headers: {
@@ -377,7 +404,7 @@
             console.log('Ha jugado tijera', data)
           });
       }
-      //crearJuego(); 
+      
       generarAvatarAleatorio();
 
       function openPage(pageName) {
