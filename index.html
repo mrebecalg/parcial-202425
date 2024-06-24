@@ -224,7 +224,7 @@
             console.log('Crear juego', data)
             document.getElementById('gameId').value = data['id']
             crearJugador();
-            getNotificationsSocket();
+            //getNotificationsSocket();
           });
       }
 
@@ -328,7 +328,7 @@
               document.getElementById('avatar').src = data['avatar']
             }
           });
-          getNotificationsSocket();
+          //getNotificationsSocket();
           consultarJuego();
       }
 
