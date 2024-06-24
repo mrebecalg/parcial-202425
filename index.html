@@ -294,8 +294,8 @@
             }
             else {
               document.getElementById('avatar').src = data['avatar']
-              document.getElementById('playerID').value = data['id']
             }
+            document.getElementById('playerID').value = data['id']
           });
       }
       
@@ -327,8 +327,9 @@
             }
             else {
               document.getElementById('avatar').src = data['avatar']
-              document.getElementById('playerID').value = data['id']
             }
+            document.getElementById('playerID').value = data['id']
+            console.log('ID', data)
           });
           //getNotificationsSocket();
       }
