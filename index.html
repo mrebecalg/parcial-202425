@@ -341,7 +341,7 @@
       const campoInput2 = document.getElementById('salaId');
       const boton = document.getElementById('boton-unirse');
       campoInput.addEventListener('input', function () {
-        if (campoInput.value.trim()!== '' && campoInput2.value.trim()!== '') {
+        if (campoInput2.value.trim()!== '' && campoInput.value.trim()!== '') {
           boton.disabled = false;
         } else {
           boton.disabled = true;
