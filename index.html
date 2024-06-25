@@ -597,7 +597,7 @@
       eventSource.onmessage = function (event) {
         const data = JSON.parse(event.data);
         document.getElementById('result').textContent = data.result;
-        console.log('Mensaje del servidor:', data);
+        //console.log('Mensaje del servidor:', data);
         if (gameId == data.id) {
         document.getElementById('server').value = data['message']
         }
