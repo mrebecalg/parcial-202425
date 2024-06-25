@@ -76,7 +76,7 @@
       <button class="boton" onclick="openPage('page1')" style="margin-top: 30px;">Volver</button>
     </div>
   </section>
-
+</body>
   <!-- CSS -->
 
   <style>
@@ -375,10 +375,10 @@
         .then(response => response.json())
         .then(data => {
           console.log(data)
-          playerId = data['id']
-          document.getElementById('ganadas').innerHTML = data['wins']
-          document.getElementById('perdidas').innerHTML = data['loses']
-          document.getElementById('empates').innerHTML= data['ties']
+          //playerId = data['id']
+          document.getElementById('ganadas').value= data['wins']
+          document.getElementById('perdidas').value = data['loses']
+          document.getElementById('empates').value= data['ties']
         });
     }
 
@@ -595,7 +595,5 @@
     }
 
   </script>
-
-</body>
 
 </html>
