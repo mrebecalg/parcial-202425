@@ -454,24 +454,28 @@
     }
     // Consultas
 
-    // function consultarJugador() {
-    //   let gameId = document.getElementById('gameId').value
-    //   let playerId = document.getElementById('playerID').value
-    //   fetch(`${url}/games/${gameId}/players/${playerId}`)
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       console.log(data)
-    //       document.getElementById('ganadas').value = data['wins']
-    //       document.getElementById('perdidas').value = data['loses']
-    //       document.getElementById('empates').value= data['ties']
-    //     });
-    // }
+    function consultarJugador() {
+      let gameId = document.getElementById('gameId').value
+      let salaId = document.getElementById('salaId').value
+      let playerId = document.getElementById('playerID').value
+      if (salaId.value.trim() !== ''){
+        gameId.value = salaId.value
+      }
+      fetch(`${url}/games/${gameId}/players/${playerId}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          document.getElementById('ganadas').value = data['wins']
+          document.getElementById('perdidas').value = data['loses']
+          document.getElementById('empates').value= data['ties']
+        });
+    }
 
-    // function actualizarEstado() {
-    //   setInterval(() => {
-    //     consultarJugador();
-    //   }, 4000);
-    // }
+    function actualizarEstado() {
+      setInterval(() => {
+        consultarJugador();
+      }, 4000);
+    }
 
     // Esto es solo para que se muestren los iconitos de las jugadas
     let imagenActual;
@@ -509,7 +513,7 @@
         .then(data => {
           console.log('Ha jugado piedra', data)
         });
-
+      actualizarEstado();
     }
 
     function jugadaPapel() {
@@ -530,7 +534,7 @@
         .then(data => {
           console.log('Ha jugado papel', data)
         });
-
+      actualizarEstado();
     }
 
     function jugadaTijera() {
@@ -551,7 +555,7 @@
         .then(data => {
           console.log('Ha jugado tijera', data)
         });
-
+      actualizarEstado();
     }
     //Generar un avatar aleatorio para el Usuario
 
