@@ -599,7 +599,7 @@
         document.getElementById('result').textContent = data.result;
         //console.log('Mensaje del servidor:', data);
         if (gameId == data.id) {
-        document.getElementById('server').value = data['message']
+        document.getElementById('server').value = data['message']  // Por alguna razón los mensajes solo se muestran del lado del jugador que se unió y no de quien lo creó
         }
         consultarJugador();
       };
