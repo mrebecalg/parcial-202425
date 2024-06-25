@@ -418,6 +418,9 @@
           console.log('Crear jugador', data)
 
           document.getElementById('playerID').value = data['id']
+          document.getElementById('ganadas').value = data['wins']
+          document.getElementById('perdidas').value = data['loses']
+          document.getElementById('empates').value = data['ties']
 
           if (data['statusCode'] !== 201) {
             document.getElementById('result').innerHTML = data
@@ -453,6 +456,9 @@
           console.log('El jugador se unió a la sala', data)
 
           document.getElementById('playerID').value = data['id']
+          document.getElementById('ganadas').value = data['wins']
+          document.getElementById('perdidas').value = data['loses']
+          document.getElementById('empates').value = data['ties']
 
           if (data['statusCode'] !== 201) {
             document.getElementById('result').innerHTML = data
