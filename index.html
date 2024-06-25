@@ -376,7 +376,7 @@
           console.log('Crear juego', data)
           document.getElementById('gameId').value = data['id']
           crearJugador();
-          abrirSocket();
+          abrirSocket(gameId);
         });
     }
 
@@ -445,7 +445,7 @@
           document.getElementById('ganadas').value = data['wins']
           document.getElementById('perdidas').value = data['loses']
           document.getElementById('empates').value = data['ties']
-          abrirSocket();
+          abrirSocket(gameId);
 
           if (data['statusCode'] !== 201) {
             document.getElementById('result').innerHTML = data
@@ -474,12 +474,6 @@
           document.getElementById('empates').value = data['ties']
         });
     }
-
-    // function actualizarEstado() {
-    //   setInterval(() => {
-    //     consultarJugador();
-    //   }, 4000);
-    // }
 
     // Esto es solo para que se muestren los iconitos de las jugadas
     let imagenActual;
@@ -516,7 +510,6 @@
         .then(response => response.json())
         .then(data => {
           console.log('Ha jugado piedra', data)
-          //actualizarEstado();
         });
 
     }
@@ -538,7 +531,6 @@
         .then(response => response.json())
         .then(data => {
           console.log('Ha jugado papel', data)
-          //actualizarEstado();
         });
 
     }
@@ -560,7 +552,6 @@
         .then(response => response.json())
         .then(data => {
           console.log('Ha jugado tijera', data)
-          //actualizarEstado();
         });
 
     }
@@ -606,6 +597,10 @@
       eventSource.onmessage = function (event) {
         const data = JSON.parse(event.data);
         document.getElementById('result').textContent = data.result;
+        if (gameId == data[id]) {
+        console.log('Mensaje del servidor:', data);
+        document.getElementById('server').value = data['message']
+        }
         consultarJugador();
       };
 
