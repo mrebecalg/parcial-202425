@@ -375,7 +375,7 @@
           console.log('Crear juego', data)
           document.getElementById('gameId').value = data['id']
           crearJugador();
-          iniciarWebSocket();
+          //iniciarWebSocket();
         });
     }
 
@@ -444,7 +444,7 @@
           document.getElementById('ganadas').value = data['wins']
           document.getElementById('perdidas').value = data['loses']
           document.getElementById('empates').value = data['ties']
-          iniciarWebSocket();
+          //iniciarWebSocket();
 
           if (data['statusCode'] !== 201) {
             document.getElementById('result').innerHTML = data
