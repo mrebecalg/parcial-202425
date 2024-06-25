@@ -13,7 +13,7 @@
     <button class="modo" id="cambioModo" onclick="toggleDarkMode()" width="140"> Modo Claro </button>
   </header>
   <section>
-    <div class="hide" id="result" style="display:none"></div>
+    <!-- <div id="result" style="display:none"></div> -->
 
     <div id="page1" class="page">
       <div class="contenedorJugador" id="contenedor-principal">
@@ -37,8 +37,8 @@
       </div>
     </div>
 
-    <div id="page2" class="page" style="display:none">
-      <div class="contenedorDatos">
+    <div id="page2" class="page" style="display: none;">
+      <div class="contenedorDatos" style="margin-top: 80px;">
         <label for="gameId">ID de la Sala:</label>
         <input class="input" type="text" id="gameId" value="" disabled><br>
 
@@ -49,7 +49,17 @@
         <input class="input" type="text" id="playerID" value="" disabled>
 
       </div>
-      <div class="contenedorJuego" style="margin-top: 30px;">
+      <div class="contenedorJugadas" style="margin-top: 10px;">
+        <label for="gameId">Ganadas:</label>
+        <input class="contador" type="text" id="ganadas" value="" disabled><br>
+
+        <label for="namePlayer"> Perdidas: </label>
+        <input class="contador" type="text" id="perdidas" value="" disabled><br>
+
+        <label for="playerID">Empates:</label>
+        <input class="contador" type="text" id="empates" value="" disabled>
+      </div>
+      <div class="contenedorJuego" style="margin-top: 10px;">
 
         <figure>
           <img class="imgJuego" id="papelImg" src="https://images.emojiterra.com/google/android-10/512px/1f4c3.png"
@@ -105,6 +115,13 @@
       background: rgb(211, 199, 255);
     }
 
+    .contador{
+      background: rgb(211, 199, 255);
+      width: 20px;
+      margin-right: 20px;
+      margin-left: 10px;
+    }
+
     .page {
       text-align: center;
       display: flex;
@@ -142,6 +159,17 @@
       box-shadow: 0 0 30px rgba(0, 0, 0, 0.589);
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .contenedorJugadas {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.83);
+      padding: 20px;
+      border-radius: 30px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.589);
+      display: flex;
       justify-content: center;
       align-items: center;
     }
@@ -332,7 +360,7 @@
       const campoInput2 = document.getElementById('salaId');
       const boton = document.getElementById('boton-unirse');
       campoInput.addEventListener('input', function () {
-        if (campoInput.value.trim()!== '' && campoInput2.value.trim()!== '') {
+        if (campoInput.value.trim() !== '' && campoInput2.value.trim() !== '') {
           boton.disabled = false;
         } else {
           boton.disabled = true;
@@ -402,8 +430,10 @@
         .then(response => response.json())
         .then(data => {
           console.log('Crear jugador', data)
-
           document.getElementById('playerID').value = data['id']
+          document.getElementById('ganadas').value = data['wins']
+          document.getElementById('perdidas').value = data['loses']
+          document.getElementById('empates').value = data['ties']
 
           if (data['statusCode'] !== 201) {
             document.getElementById('result').innerHTML = data
@@ -439,6 +469,9 @@
           console.log('El jugador se unió a la sala', data)
 
           document.getElementById('playerID').value = data['id']
+          document.getElementById('ganadas').value = data['wins']
+          document.getElementById('perdidas').value = data['loses']
+          document.getElementById('empates').value = data['ties']
 
           if (data['statusCode'] !== 201) {
             document.getElementById('result').innerHTML = data
