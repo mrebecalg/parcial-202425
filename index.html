@@ -375,7 +375,7 @@
           console.log('Crear juego', data)
           document.getElementById('gameId').value = data['id']
           crearJugador();
-          configurarWebSocket();
+          iniciarWebSocket();
         });
     }
 
@@ -444,7 +444,7 @@
           document.getElementById('ganadas').value = data['wins']
           document.getElementById('perdidas').value = data['loses']
           document.getElementById('empates').value = data['ties']
-          configurarWebSocket(salaId);
+          iniciarWebSocket();
 
           if (data['statusCode'] !== 201) {
             document.getElementById('result').innerHTML = data
@@ -455,7 +455,7 @@
           }
         });
     }
-   // Consultas
+    // Consultas
 
     function consultarJugador() {
       let gameId = document.getElementById('gameId').value
@@ -515,7 +515,7 @@
         .then(response => response.json())
         .then(data => {
           console.log('Ha jugado piedra', data)
-          // actualizarEstado();
+          actualizarEstado();
         });
 
     }
@@ -537,7 +537,7 @@
         .then(response => response.json())
         .then(data => {
           console.log('Ha jugado papel', data)
-          // actualizarEstado();
+          actualizarEstado();
         });
 
     }
@@ -559,7 +559,7 @@
         .then(response => response.json())
         .then(data => {
           console.log('Ha jugado tijera', data)
-          // actualizarEstado();
+          actualizarEstado();
         });
 
     }
@@ -599,7 +599,50 @@
     }
 
     // Socket
+    // function iniciarWebSocket() {
+    //   let gameId = document.getElementById('gameId').value; // Obtener gameId desde un campo de entrada en tu HTML
+    //   let salaId = document.getElementById('salaId').value;
+    //   if (salaId?.value?.trim() !== '') {
+    //     gameId.value = salaId.value
+    //   }
+    //   // Verificar si gameId está definido y no es vacío
+    //   if (gameId) {
+    //     configurarWebSocket(gameId); // Llamar a configurarWebSocket con gameId válido
+    //   } else {
+    //     console.error('gameId no está definido o es vacío');
+    //   }
+    // }
 
+    // function configurarWebSocket(gameId) {
+    //   const socket = new WebSocket(`ws://parcial-202425-production.up.railway.app/games/${gameId}/notifications`);
+
+
+    // socket.onopen = function (event) {
+    //   console.log('Conexión WebSocket establecida');
+    // };
+
+    //   socket.onmessage = function (event) {
+    //     console.log('Mensaje recibido del servidor:', event.data);
+    //     const resultado = JSON.parse(event.data);
+
+    //     if (resultado.type === 'game_result') {
+    //       console.log('Resultado de la partida:', resultado);
+    //       document.getElementById('ganadas').value = resultado.wins;
+    //       document.getElementById('perdidas').value = resultado.loses;
+    //       document.getElementById('empates').value = resultado.ties;
+    //     } else {
+    //       console.log('Mensaje recibido no es un resultado de partida:', resultado);
+    //     }
+    //   };
+
+    //   socket.onerror = function (error) {
+    //     console.error('Error en la conexión WebSocket:', error);
+    //   };
+
+    //   socket.onclose = function (event) {
+    //     console.log('Conexión WebSocket cerrada');
+    //   };
+    // }
 
   </script>
 
