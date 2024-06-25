@@ -25,14 +25,10 @@
           <label for="namePlayer">Nombre del jugador</label>
           <input type="text" id="namePlayer" value="" placeholder="Escribe tu nombre">
 
-          <button class="boton" id="boton-iniciar" onclick="crearJuego(event),openPage('page2')"
-            style="margin-top: 10px;" disabled>
-            Iniciar Juego </button><br>
+          <button class="boton" id="boton-iniciar" onclick="crearJuego(event),openPage('page2')" style="margin-top: 10px;" disabled>Iniciar Juego </button><br>
           <label for="salaId" style="margin-top: 10px;">O bien, unéte a una sala</label>
           <input type="text" id="salaId" value="" placeholder="Escribe el ID de la sala">
-          <button class="boton" id="boton-unirse" onclick="unirseJuego(event),openPage('page2')"
-            style="margin-top: 10px;" disabled>
-            Unirse a una Sala </button><br>
+          <button class="boton" id="boton-unirse" onclick="unirseJuego(event),openPage('page2')" style="margin-top: 10px;" disabled>Unirse a una Sala </button><br>
         </form>
       </div>
     </div>
@@ -368,19 +364,6 @@
     }
     habilitarBotonUnirse();
 
-    function consultarJugador() {
-      let gameId = document.getElementById('gameId').value
-      let playerId = document.getElementById('playerID').value
-      fetch(`${url}/games/${gameId}/players/${playerId}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data)
-          document.getElementById('ganadas').value = data['wins']
-          document.getElementById('perdidas').value = data['loses']
-          document.getElementById('empates').value= data['ties']
-        });
-    }
-
     function crearJuego(event) {
       event.preventDefault();
       fetch(`${url}/games/`, {
@@ -469,6 +452,26 @@
           }
         });
     }
+    // Consultas
+
+    // function consultarJugador() {
+    //   let gameId = document.getElementById('gameId').value
+    //   let playerId = document.getElementById('playerID').value
+    //   fetch(`${url}/games/${gameId}/players/${playerId}`)
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       console.log(data)
+    //       document.getElementById('ganadas').value = data['wins']
+    //       document.getElementById('perdidas').value = data['loses']
+    //       document.getElementById('empates').value= data['ties']
+    //     });
+    // }
+
+    // function actualizarEstado() {
+    //   setInterval(() => {
+    //     consultarJugador();
+    //   }, 4000);
+    // }
 
     // Esto es solo para que se muestren los iconitos de las jugadas
     let imagenActual;
@@ -488,12 +491,6 @@
 
     //Funciones de partida
 
-    function actualizarEstado() {
-      setInterval(() => {
-        consultarJugador();
-      }, 5000);
-    }
-
     function jugadaPiedra() {
       cambiarImagen('piedraImg');
       let playerId = document.getElementById('playerID').value
@@ -512,7 +509,7 @@
         .then(data => {
           console.log('Ha jugado piedra', data)
         });
-      // actualizarEstado();
+
     }
 
     function jugadaPapel() {
@@ -533,7 +530,7 @@
         .then(data => {
           console.log('Ha jugado papel', data)
         });
-      //actualizarEstado();
+
     }
 
     function jugadaTijera() {
@@ -554,9 +551,8 @@
         .then(data => {
           console.log('Ha jugado tijera', data)
         });
-      // actualizarEstado();
+
     }
-    actualizarEstado();
     //Generar un avatar aleatorio para el Usuario
 
     function generarAvatarAleatorio() {
