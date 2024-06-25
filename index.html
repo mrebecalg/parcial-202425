@@ -376,9 +376,9 @@
         .then(data => {
           console.log(data)
           //gameId = data['id']
-          document.getElementById('ganadas').value = data['wins']
-          document.getElementById('perdidas').value = data['loses']
-          document.getElementById('empates').value = data['ties']
+          document.getElementById('ganadas').innerHTML = data['wins']
+          document.getElementById('perdidas').innerHTML = data['loses']
+          document.getElementById('empates').innerHTML= data['ties']
         });
     }
 
