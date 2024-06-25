@@ -607,7 +607,7 @@
         const data = JSON.parse(event.data);
         console.log('Mensaje del servidor:', data);
         document.getElementById('result').textContent = data.result;
-        document.getElementById('server').textContent = data.message;
+        document.getElementById('server').value = data['message']
         consultarJugador();
       };
 
