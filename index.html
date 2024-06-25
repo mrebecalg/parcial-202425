@@ -30,7 +30,7 @@
             style="margin-top: 10px;" disabled>Iniciar Juego </button><br>
           <label for="salaId" style="margin-top: 10px;">O bien, unéte a una sala</label>
           <input type="text" id="salaId" value="" placeholder="Escribe el ID de la sala">
-          <button class="boton" id="boton-unirse" onclick="unirseJuego(event),openPage('page2')"
+          <button class="boton" id="boton-unirse" onclick="unirseJuego(event),openPage('page2'),eventSource.close()"
             style="margin-top: 10px;" disabled>Unirse a una Sala </button><br>
         </form>
       </div>
@@ -415,7 +415,7 @@
             document.getElementById('avatar').src = data['avatar']
           }
         });
-        
+
     }
 
     function unirseJuego(event) {
@@ -603,15 +603,17 @@
     function abrirSocket(gameId) {
       const eventSource = new EventSource(`${url}/games/${gameId}/notifications`);
 
-      eventSource.onmessage = function(event) {
+      eventSource.onmessage = function (event) {
         const data = JSON.parse(event.data);
         console.log('Mensaje del servidor:', data);
         document.getElementById('result').textContent = data.result;
-        document.getElementById('server').value = data['message']
+        if (gameId == data.id) {
+          document.getElementById('server').value = data['message']
+        }
         consultarJugador();
       };
 
-      eventSource.onerror = function(error) {
+      eventSource.onerror = function (error) {
         console.error('Error en SSE:', error);
         eventSource.close();
       };
