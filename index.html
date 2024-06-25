@@ -375,7 +375,7 @@
         .then(response => response.json())
         .then(data => {
           console.log(data)
-          playerId = data['id']
+          //gameId = data['id']
           document.getElementById('ganadas').innerHTML = data['wins']
           document.getElementById('perdidas').innerHTML = data['loses']
           document.getElementById('empates').innerHTML= data['ties']
