@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <div id="page2" class="page" style="display: none;">
+    <div id="page2" class="page" >
       <div class="contenedorDatos" style="margin-top: 80px;">
         <label for="gameId">ID de la Sala:</label>
         <input class="input" type="text" id="gameId" value="" disabled><br>
@@ -46,7 +46,7 @@
         <input class="input" type="text" id="namePlayerDisplay" value="" disabled><br>
 
         <label for="playerID">ID del Jugador:</label>
-        <input class="input" type="text" id="playerID" value="" disabled>
+        <input class="input" type="text" id="playerID" value="" disabled><br>
         <label id="player2Status">Esperando Otro Jugador...</label>
 
       </div>
@@ -338,11 +338,7 @@
 
     function cambiarLabel() {
       var label = document.getElementById('player2Status');
-      if (label.innerHTML === 'Esperando Otro Jugador...') {
-        label.innerHTML = 'Jugador conectado';
-      } else {
-        label.innerHTML = 'Esperando Otro Jugador...';
-      }
+      label.innerHTML = 'Jugador conectado';
     }
 
     // Funciones del juego
