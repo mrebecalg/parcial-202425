@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <div id="page2" class="page" style="display: none;" >
+    <div id="page2" class="page" style="display: none;">
       <div class="contenedorDatos" style="margin-top: 80px;">
         <label for="gameId">ID de la Sala:</label>
         <input class="input" type="text" id="gameId" value="" disabled><br>
@@ -135,7 +135,8 @@
       width: 300px;
       height: 400px;
     }
-    .contador{
+
+    .contador {
       background: rgb(211, 199, 255);
       width: 20px;
       margin-right: 20px;
@@ -358,7 +359,7 @@
       const campoInput2 = document.getElementById('salaId');
       const boton = document.getElementById('boton-unirse');
       campoInput.addEventListener('input', function () {
-        if (campoInput2.value.trim()!== '' && campoInput.value.trim()!== '') {
+        if (campoInput2.value.trim() !== '' && campoInput.value.trim() !== '') {
           boton.disabled = false;
         } else {
           boton.disabled = true;
@@ -367,18 +368,18 @@
     }
     habilitarBotonUnirse();
 
-  //  function consultarJuego() {
-  //     let gameId = document.getElementById('gameId').value
-  //     fetch(`${url}/games/${gameId}`)
-  //       .then(response => response.json())
-  //       .then(data => {
-  //         console.log(data)
-  //         gameId = data['id']
-  //         document.getElementById('ganadas').value = data['wins']
-  //         document.getElementById('perdidas').value = data['loses']
-  //         document.getElementById('empates').value = data['ties']
-  //       });
-  //   }
+    function consultarJuego() {
+      let gameId = document.getElementById('gameId').value
+      fetch(`${url}/games/${gameId}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          gameId = data['id']
+          document.getElementById('ganadas').value = data['wins']
+          document.getElementById('perdidas').value = data['loses']
+          document.getElementById('empates').value = data['ties']
+        });
+    }
 
     function crearJuego(event) {
       event.preventDefault();
@@ -480,13 +481,13 @@
       imagenActual = id;
     }
 
-    // Funciones de partida
+    //Funciones de partida
 
-    // function actualizarEstado(gameId) {
-    //         setInterval(() => {
-    //             consultarJuego();
-    //         }, 4000);
-    // }
+    function actualizarEstado(gameId) {
+      setInterval(() => {
+        consultarJuego();
+      }, 4000);
+    }
 
     function jugadaPiedra() {
       cambiarImagen('piedraImg');
@@ -506,7 +507,7 @@
         .then(data => {
           console.log('Ha jugado piedra', data)
         });
-     // actualizarEstado(gameId);
+      actualizarEstado(gameId);
     }
 
     function jugadaPapel() {
@@ -527,7 +528,7 @@
         .then(data => {
           console.log('Ha jugado papel', data)
         });
-      //actualizarEstado(gameId);
+      actualizarEstado(gameId);
     }
 
     function jugadaTijera() {
@@ -548,7 +549,7 @@
         .then(data => {
           console.log('Ha jugado tijera', data)
         });
-        //actualizarEstado(gameId);
+      actualizarEstado(gameId);
     }
 
     //Generar un avatar aleatorio para el Usuario
