@@ -56,7 +56,6 @@
 
         <label for="playerID">Empates:</label>
         <input class="contador" type="text" id="empates" value="" disabled>
-        <label for="server">Ganador:</label>
         <input class="input" type="text" id="server" value="" disabled>
       </div>
 
@@ -608,6 +607,7 @@
         const data = JSON.parse(event.data);
         console.log('Mensaje del servidor:', data);
         document.getElementById('result').textContent = data.result;
+        document.getElementById('server').textContent = data.message;
         consultarJugador();
       };
 
