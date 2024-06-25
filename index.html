@@ -56,6 +56,8 @@
 
         <label for="playerID">Empates:</label>
         <input class="contador" type="text" id="empates" value="" disabled>
+        <label for="server">Ganador:</label>
+        <input class="input" type="text" id="server" value="" disabled>
       </div>
 
       <div class="contenedorJuego" style="margin-top: 10px;">
@@ -375,7 +377,7 @@
           console.log('Crear juego', data)
           document.getElementById('gameId').value = data['id']
           crearJugador();
-          //iniciarWebSocket();
+          abrirSocket();
         });
     }
 
@@ -405,7 +407,6 @@
           document.getElementById('ganadas').value = data['wins']
           document.getElementById('perdidas').value = data['loses']
           document.getElementById('empates').value = data['ties']
-          configurarWebSocket(gameId);
 
           if (data['statusCode'] !== 201) {
             document.getElementById('result').innerHTML = data
@@ -415,6 +416,7 @@
             document.getElementById('avatar').src = data['avatar']
           }
         });
+        
     }
 
     function unirseJuego(event) {
@@ -444,7 +446,7 @@
           document.getElementById('ganadas').value = data['wins']
           document.getElementById('perdidas').value = data['loses']
           document.getElementById('empates').value = data['ties']
-          //iniciarWebSocket();
+          abrirSocket();
 
           if (data['statusCode'] !== 201) {
             document.getElementById('result').innerHTML = data
@@ -474,11 +476,11 @@
         });
     }
 
-    function actualizarEstado() {
-      setInterval(() => {
-        consultarJugador();
-      }, 4000);
-    }
+    // function actualizarEstado() {
+    //   setInterval(() => {
+    //     consultarJugador();
+    //   }, 4000);
+    // }
 
     // Esto es solo para que se muestren los iconitos de las jugadas
     let imagenActual;
@@ -515,7 +517,7 @@
         .then(response => response.json())
         .then(data => {
           console.log('Ha jugado piedra', data)
-          actualizarEstado();
+          //actualizarEstado();
         });
 
     }
@@ -537,7 +539,7 @@
         .then(response => response.json())
         .then(data => {
           console.log('Ha jugado papel', data)
-          actualizarEstado();
+          //actualizarEstado();
         });
 
     }
@@ -559,7 +561,7 @@
         .then(response => response.json())
         .then(data => {
           console.log('Ha jugado tijera', data)
-          actualizarEstado();
+          //actualizarEstado();
         });
 
     }
@@ -599,50 +601,21 @@
     }
 
     // Socket
-    // function iniciarWebSocket() {
-    //   let gameId = document.getElementById('gameId').value; // Obtener gameId desde un campo de entrada en tu HTML
-    //   let salaId = document.getElementById('salaId').value;
-    //   if (salaId?.value?.trim() !== '') {
-    //     gameId.value = salaId.value
-    //   }
-    //   // Verificar si gameId está definido y no es vacío
-    //   if (gameId) {
-    //     configurarWebSocket(gameId); // Llamar a configurarWebSocket con gameId válido
-    //   } else {
-    //     console.error('gameId no está definido o es vacío');
-    //   }
-    // }
+    function abrirSocket(gameId) {
+      const eventSource = new EventSource(`${url}/games/${gameId}/notifications`);
 
-    // function configurarWebSocket(gameId) {
-    //   const socket = new WebSocket(`ws://parcial-202425-production.up.railway.app/games/${gameId}/notifications`);
+      eventSource.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        console.log('Mensaje del servidor:', data);
+        document.getElementById('result').textContent = data.result;
+        consultarJugador();
+      };
 
-
-    // socket.onopen = function (event) {
-    //   console.log('Conexión WebSocket establecida');
-    // };
-
-    //   socket.onmessage = function (event) {
-    //     console.log('Mensaje recibido del servidor:', event.data);
-    //     const resultado = JSON.parse(event.data);
-
-    //     if (resultado.type === 'game_result') {
-    //       console.log('Resultado de la partida:', resultado);
-    //       document.getElementById('ganadas').value = resultado.wins;
-    //       document.getElementById('perdidas').value = resultado.loses;
-    //       document.getElementById('empates').value = resultado.ties;
-    //     } else {
-    //       console.log('Mensaje recibido no es un resultado de partida:', resultado);
-    //     }
-    //   };
-
-    //   socket.onerror = function (error) {
-    //     console.error('Error en la conexión WebSocket:', error);
-    //   };
-
-    //   socket.onclose = function (event) {
-    //     console.log('Conexión WebSocket cerrada');
-    //   };
-    // }
+      eventSource.onerror = function(error) {
+        console.error('Error en SSE:', error);
+        eventSource.close();
+      };
+    }
 
   </script>
 
