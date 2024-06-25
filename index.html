@@ -489,7 +489,7 @@
 
     //Funciones de partida
 
-    function actualizarEstado(gameId) {
+    function actualizarEstado() {
       setInterval(() => {
         consultarJugador();
       }, 2000);
@@ -513,7 +513,7 @@
         .then(data => {
           console.log('Ha jugado piedra', data)
         });
-      actualizarEstado(gameId);
+      actualizarEstado();
     }
 
     function jugadaPapel() {
@@ -534,7 +534,7 @@
         .then(data => {
           console.log('Ha jugado papel', data)
         });
-      actualizarEstado(gameId);
+      actualizarEstado();
     }
 
     function jugadaTijera() {
@@ -555,7 +555,7 @@
         .then(data => {
           console.log('Ha jugado tijera', data)
         });
-      actualizarEstado(gameId);
+      actualizarEstado();
     }
 
     //Generar un avatar aleatorio para el Usuario
