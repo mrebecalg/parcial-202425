@@ -288,6 +288,7 @@
     const url = 'https://parcial-202425-production.up.railway.app'
     let gameId = null;
     let playerId = null;
+    let salaId = null;
 
     //Mostrar los datos "Nombre" y "ID" en la siguiente pagina
     const input1 = document.getElementById('namePlayer');
@@ -295,6 +296,7 @@
     input1.addEventListener('input', () => {
       input2.value = input1.value;
     });
+    
     const inputUnirseId = document.getElementById('salaId');
     const inputId = document.getElementById('gameId');
     inputUnirseId.addEventListener('input', () => {
@@ -458,7 +460,7 @@
       let gameId = document.getElementById('gameId').value
       let salaId = document.getElementById('salaId').value
       let playerId = document.getElementById('playerID').value
-      if (salaId.value.trim() !== ''){
+      if (salaId?.value?.trim() !== ''){
         gameId.value = salaId.value
       }
       fetch(`${url}/games/${gameId}/players/${playerId}`)
@@ -512,8 +514,9 @@
         .then(response => response.json())
         .then(data => {
           console.log('Ha jugado piedra', data)
+          actualizarEstado();
         });
-      actualizarEstado();
+      
     }
 
     function jugadaPapel() {
@@ -533,8 +536,9 @@
         .then(response => response.json())
         .then(data => {
           console.log('Ha jugado papel', data)
-        });
-      actualizarEstado();
+        actualizarEstado();
+      });
+      
     }
 
     function jugadaTijera() {
@@ -554,8 +558,9 @@
         .then(response => response.json())
         .then(data => {
           console.log('Ha jugado tijera', data)
+          actualizarEstado();
         });
-      actualizarEstado();
+      
     }
     //Generar un avatar aleatorio para el Usuario
 
