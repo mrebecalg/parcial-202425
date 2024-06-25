@@ -394,18 +394,19 @@
         });
     }
 
-    function consultarJuego() {
-      let gameId = document.getElementById('gameId').value
-      fetch(`${url}/games/${gameId}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data)
-          gameId = data['id']
-          document.getElementById('ganadas').value = data['wins']
-          document.getElementById('perdidas').value = data['loses']
-          document.getElementById('empates').value = data['ties']
-        });
-    }
+    // function consultarJuego() {
+    //   let gameId = document.getElementById('gameId').value
+    //   fetch(`${url}/games/${gameId}`)
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       console.log(data)
+    //       gameId = data['id']
+    //       actualizarElemento('');
+    //       //document.getElementById('result').innerHTML = data['id'] + ' = ' + data['players'][1]['name']
+    //       document.getElementById('playerID').value = data['players'][0]['id']
+    //       document.getElementById('playerID').value = data['players'][1]['id']
+    //     });
+    // }
 
     function crearJugador() {
       let nombre = document.getElementById('namePlayer').value
@@ -500,12 +501,6 @@
 
     // Funciones de partida
 
-    function actualizarEstado(gameId) {
-            setInterval(() => {
-                consultarJuego();
-            }, 4000);
-    }
-
     function jugadaPiedra() {
       cambiarImagen('piedraImg');
       let playerId = document.getElementById('playerID').value
@@ -524,7 +519,6 @@
         .then(data => {
           console.log('Ha jugado piedra', data)
         });
-      actualizarEstado(gameId);
     }
 
     function jugadaPapel() {
@@ -545,7 +539,6 @@
         .then(data => {
           console.log('Ha jugado papel', data)
         });
-        actualizarEstado(gameId);
     }
 
     function jugadaTijera() {
@@ -566,7 +559,6 @@
         .then(data => {
           console.log('Ha jugado tijera', data)
         });
-        actualizarEstado(gameId);
     }
 
     //Generar un avatar aleatorio para el Usuario
