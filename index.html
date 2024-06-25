@@ -370,7 +370,7 @@
 
     function consultarJugador() {
       let gameId = document.getElementById('gameId').value
-      let playerId = document.getElementById('gameId').value
+      let playerId = document.getElementById('playerId').value
       fetch(`${url}/games/${gameId}/players/${playerId}`)
         .then(response => response.json())
         .then(data => {
@@ -493,7 +493,7 @@
     function actualizarEstado(gameId) {
       setInterval(() => {
         consultarJugador();
-      }, 4000);
+      }, 2000);
     }
 
     function jugadaPiedra() {
