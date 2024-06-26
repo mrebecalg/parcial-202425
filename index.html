@@ -595,12 +595,14 @@
     function abrirSocket(gameId) {
       const eventSource = new EventSource(`${url}/games/${gameId}/notifications`);
 
+      var id = document.getElementById('gameId').value
+
       eventSource.onmessage = function (event) {
         const data = JSON.parse(event.data);
         document.getElementById('result').textContent = data.result;
         //console.log('Mensaje del servidor:', data);
-        if (gameId == data.id) {
-        document.getElementById('server').value = data['message']  // Por alguna razón los mensajes solo se muestran del lado del jugador que se unió y no de quien lo creó
+        if (id == data.id) {
+          document.getElementById('server').value = data['message']  // Por alguna razón los mensajes solo se muestran del lado del jugador que se unió y no de quien lo creó
         }
         consultarJugador();
       };
