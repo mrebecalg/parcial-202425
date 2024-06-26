@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es-Ve">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/6832/6832100.png">
+  <title> Piedra, Papel y Tijeras </title>
+</head>
+
+<body class="cuerpo" id="body">
+  <header class="header">
+    <h2 style="margin-bottom:-1px">Piedra, Papel o Tijeras</h2>
+    <button class="modo" id="cambioModo" onclick="toggleDarkMode()" width="140"> Modo Claro </button>
+  </header>
+  <section>
+    <div class="hide" id="result" style="display:none"></div>
+
+    <div id="page1" class="page">
+      <div class="contenedorJugador" id="contenedor-principal">
+        <figure>
+          <img class="avatares" id='avatar' src="" alt="" width="100" height="100">
+        </figure>
+
+        <form class="formulario" method="post">
+          <label for="namePlayer">Nombre del jugador</label>
+          <input type="text" id="namePlayer" value="" placeholder="Escribe tu nombre">
+
+          <button class="boton" id="boton-iniciar" onclick="crearJuego(event),openPage('page2')"
+            style="margin-top: 10px;" disabled>Iniciar Juego </button><br>
+          <label for="salaId" style="margin-top: 10px;">O bien, unéte a una sala</label>
+          <input type="text" id="salaId" value="" placeholder="Escribe el ID de la sala">
+          <button class="boton" id="boton-unirse" onclick="unirseJuego(event),openPage('page2')"
+            style="margin-top: 10px;" disabled>Unirse a una Sala </button><br>
+        </form>
+      </div>
+    </div>
+
+    <div id="page2" class="page" style="display: none;">
+      <div class="contenedorDatos" style="margin-top: 80px;">
+        <label for="gameId">ID de la Sala:</label>
+        <input class="input" type="text" id="gameId" value="" disabled><br>
+
+        <label for="namePlayer"> Nombre del jugador: </label>
+        <input class="input" type="text" id="namePlayerDisplay" value="" disabled><br>
+
+        <label for="playerID">ID del Jugador:</label>
+        <input class="input" type="text" id="playerID" value="" disabled><br>
+      </div>
+      <div class="contenedorJugadas" style="margin-top: 10px;">
+        <label for="gameId">Ganadas:</label>
+        <input class="contador" type="text" id="ganadas" value="" disabled><br>
+
+        <label for="namePlayer"> Perdidas: </label>
+        <input class="contador" type="text" id="perdidas" value="" disabled><br>
+
+        <label for="playerID">Empates:</label>
+        <input class="contador" type="text" id="empates" value="" disabled>
+        <input class="input" type="text" id="server" value="" disabled>
+      </div>
+
+      <div class="contenedorJuego" style="margin-top: 10px;">
+        <figure>
+          <img class="imgJuego" id="papelImg" src="https://images.emojiterra.com/google/android-10/512px/1f4c3.png"
+            alt="" width="100" height="100" style="display: none;">
+          <img class="imgJuego" id="tijeraImg" src="https://images.emojiterra.com/google/android-10/512px/2702.png"
+            alt="" width="100" height="100" style="display: none;">
+          <img class="imgJuego" id="piedraImg" src="https://images.emojiterra.com/google/android-12l/512px/1faa8.png"
+            alt="" width="100" height="100" style="display: none;">
+        </figure>
+
+        <button class="boton" onclick="jugadaPiedra()" id="Piedra">Piedra</button>
+        <button class="boton" onclick="jugadaPapel()" id="Papel">Papel</button>
+        <button class="boton" onclick="jugadaTijera()" id="Tijeras">Tijeras</button>
+      </div>
+      <button class="boton" onclick="openPage('page1')" style="margin-top: 30px;">Volver</button>
+    </div>
+  </section>
+
+  <!-- CSS -->
+
+  <style>
+    .header {
+
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 140px;
+      box-sizing: border-box;
+      line-height: 50px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #000000;
+      background: #ffffff;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin: 0;
+      width: 100%;
+      background-image: linear-gradient(to top, rgba(162, 80, 50, 0.882) 0%, rgba(98, 46, 201, 0.7) 100%), url(https://wallpapers.com/images/high/minimalist-black-and-white-pattern-u1nlgbrj2q1g8p84.webp);
+    }
+
+    .input {
+      background: rgb(211, 199, 255);
+    }
+
+    .page {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .contenedorJugador {
+      text-align: center;
+      background: rgb(233, 150, 122);
+      padding: 20px;
+      border-radius: 50px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.589);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 300px;
+      height: 400px;
+      background: linear-gradient(to top, rgba(255, 204, 186, 0.947) 0%, rgba(247, 180, 255, 0.919) 100%);
+
+    }
+
+    .contador {
+      background: rgb(211, 199, 255);
+      width: 20px;
+      margin-right: 20px;
+      margin-left: 10px;
+    }
+
+    .contenedorJugadas {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.83);
+      padding: 20px;
+      border-radius: 30px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.589);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .formulario {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .contenedorDatos {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.83);
+      padding: 20px;
+      border-radius: 30px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.589);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    .contenedorJuego {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 30px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.589);
+    }
+
+    input {
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 50px;
+    }
+
+    .boton {
+      font-size: 16px;
+      width: 150px;
+      padding: 10px;
+      ;
+      background-color: #8257d7;
+      border: 1px solid #000000;
+      border-radius: 100px;
+      color: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.597), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+
+    .boton:hover {
+      background-color: #af5cdc;
+      border: 1px solid #211313;
+    }
+
+    .avatares {
+      border: 4px solid #ddd;
+      border-radius: 10px;
+    }
+
+    .imgJuego {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .modo {
+      font-size: 16px;
+      width: 150px;
+      padding: 10px;
+      ;
+      background-color: #ffffff;
+      border: 1px solid #000000;
+      border-radius: 100px;
+      color: rgb(0, 0, 0);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.597), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+
+
+    body.dark-mode {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(85, 6, 189, 0.707) 100%), url(https://wallpapers.com/images/high/minimalist-black-and-white-pattern-u1nlgbrj2q1g8p84.webp);
+      margin: 0;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .contenedorJugador.dark-mode {
+      text-align: center;
+      background: rgb(177, 159, 250);
+      padding: 20px;
+      border-radius: 50px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.819);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 300px;
+      height: 400px;
+      background: linear-gradient(to top, rgba(35, 24, 52, 0.947) 0%, rgba(140, 92, 222, 0.919) 100%);
+      color: #ffffff;
+    }
+
+    .boton.dark-mode {
+      font-size: 16px;
+      width: 150px;
+      padding: 10px;
+      ;
+      background-color: #33157a;
+      border: 1px solid #241644;
+      border-radius: 100px;
+      color: rgb(255, 255, 255);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.597), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+
+    .boton.dark-mode:hover {
+      background-color: #af5cdc;
+      border: 1px solid #211313;
+    }
+  </style>
+
+  <!-- JavaScript -->
+
+  <script type="text/javascript">
+    // info global
+    const url = 'https://parcial-202425-production.up.railway.app'
+    let gameId = null;
+    let playerId = null;
+    let salaId = null;
+
+    //Mostrar los datos "Nombre" y "ID" en la siguiente pagina
+    const input1 = document.getElementById('namePlayer');
+    const input2 = document.getElementById('namePlayerDisplay');
+    input1.addEventListener('input', () => {
+      input2.value = input1.value;
+    });
+
+    const inputUnirseId = document.getElementById('salaId');
+    const inputId = document.getElementById('gameId');
+    inputUnirseId.addEventListener('input', () => {
+      inputId.value = inputUnirseId.value;
+    });
+
+    // Poner la pagina en modo Oscuro/Claro
+
+    function toggleDarkMode() {
+      var body = document.getElementById('body');
+      var contenedor = document.getElementById('contenedor-principal');
+      var boton = document.getElementsByClassName('boton');
+      body.classList.toggle('dark-mode');
+      contenedor.classList.toggle('dark-mode');
+      //Como tengo muchos botones tengo que iterar
+      for (var i = 0; i < boton.length; i++) {
+        boton[i].classList.toggle('dark-mode');
+      }
+      cambiarTexto();
+    }
+
+    function cambiarTexto() {
+      var boton = document.getElementById('cambioModo');
+
+      if (boton.innerHTML === 'Modo Oscuro') {
+        boton.innerHTML = 'Modo Claro';
+        boton.style.backgroundColor = 'white';
+        boton.style.color = 'black';
+      } else {
+        boton.innerHTML = 'Modo Oscuro';
+        boton.style.backgroundColor = 'black';
+        boton.style.color = 'white';
+      }
+    }
+
+    // Habilitar botones si el usuario llena los campos
+
+    function habilitarBotonIniciar() {
+      const campoInput = document.getElementById('namePlayer');
+      const boton = document.getElementById('boton-iniciar');
+      campoInput.addEventListener('input', function () {
+        if (campoInput.value.trim() !== '') {
+          boton.disabled = false;
+        } else {
+          boton.disabled = true;
+        }
+      });
+      boton.addEventListener('click', function () {
+        if (campoInput.value.trim() === '') {
+          alert('Debes escribir tu nombre antes de presionar el botón.');
+        }
+      });
+    }
+    habilitarBotonIniciar();
+
+    function habilitarBotonUnirse() {
+      const campoInput = document.getElementById('namePlayer');
+      const campoInput2 = document.getElementById('salaId');
+      const boton = document.getElementById('boton-unirse');
+      campoInput.addEventListener('input', function () {
+        if (campoInput.value.trim() !== '' && campoInput.value.trim() !== '') {
+          boton.disabled = false;
+        } else {
+          boton.disabled = true;
+        }
+      });
+    }
+    habilitarBotonUnirse();
+
+    function crearJuego(event) {
+      event.preventDefault();
+      fetch(`${url}/games/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Crear juego', data)
+          document.getElementById('gameId').value = data['id']
+          crearJugador();
+          abrirSocket(gameId);
+        });
+    }
+
+    function crearJugador() {
+      let nombre = document.getElementById('namePlayer').value
+      let gameId = document.getElementById('gameId').value
+      let avatar = document.getElementById('avatar').src
+
+      console.log('nombre jugador 1', nombre)
+      console.log('gameId', gameId)
+
+      fetch(`${url}/games/${gameId}/players`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "name": nombre,
+          "avatar": avatar
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Crear jugador', data)
+
+          document.getElementById('playerID').value = data['id']
+          document.getElementById('ganadas').value = data['wins']
+          document.getElementById('perdidas').value = data['loses']
+          document.getElementById('empates').value = data['ties']
+
+          if (data['statusCode'] !== 201) {
+            document.getElementById('result').innerHTML = data
+            return
+          }
+          else {
+            document.getElementById('avatar').src = data['avatar']
+          }
+        });
+
+    }
+
+    function unirseJuego(event) {
+      event.preventDefault();
+      let nombre = document.getElementById('namePlayer').value
+      let gameId = document.getElementById('salaId').value
+      let avatar = document.getElementById('avatar').src
+
+      console.log('nombre jugador 2', nombre)
+      console.log('gameId', gameId)
+
+      fetch(`${url}/games/${gameId}/players`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "name": nombre,
+          "avatar": avatar
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('El jugador se unió a la sala', data)
+
+          document.getElementById('playerID').value = data['id']
+          document.getElementById('ganadas').value = data['wins']
+          document.getElementById('perdidas').value = data['loses']
+          document.getElementById('empates').value = data['ties']
+          abrirSocket(gameId);
+
+          if (data['statusCode'] !== 201) {
+            document.getElementById('result').innerHTML = data
+            return
+          }
+          else {
+            document.getElementById('avatar').src = data['avatar']
+          }
+        });
+    }
+    // Consultas
+
+    function consultarJugador() {
+      let gameId = document.getElementById('gameId').value
+      let salaId = document.getElementById('salaId').value
+      let playerId = document.getElementById('playerID').value
+      if (salaId?.value?.trim() !== '') {
+        gameId.value = salaId.value
+      }
+      fetch(`${url}/games/${gameId}/players/${playerId}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          document.getElementById('ganadas').value = data['wins']
+          document.getElementById('perdidas').value = data['loses']
+          document.getElementById('empates').value = data['ties']
+        });
+    }
+
+    // Esto es solo para que se muestren los iconitos de las jugadas
+    let imagenActual;
+    function cambiarImagen(id) {
+      ocultarImagenes();
+      mostrarImagen(id);
+    }
+    function ocultarImagenes() {
+      if (imagenActual) {
+        document.getElementById(imagenActual).style.display = 'none';
+      }
+    }
+    function mostrarImagen(id) {
+      document.getElementById(id).style.display = 'block';
+      imagenActual = id;
+    }
+
+    //Funciones de partida
+
+    function jugadaPiedra() {
+      cambiarImagen('piedraImg');
+      let playerId = document.getElementById('playerID').value
+      let gameId = document.getElementById('gameId').value
+
+      fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "next": "R"
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Ha jugado piedra', data)
+        });
+
+    }
+
+    function jugadaPapel() {
+      cambiarImagen('papelImg');
+      let playerId = document.getElementById('playerID').value
+      let gameId = document.getElementById('gameId').value
+
+      fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "next": "P"
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Ha jugado papel', data)
+        });
+
+    }
+
+    function jugadaTijera() {
+      cambiarImagen('tijeraImg');
+      let playerId = document.getElementById('playerID').value
+      let gameId = document.getElementById('gameId').value
+
+      fetch(`${url}/games/${gameId}/players/${playerId}/play`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "next": "S"
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Ha jugado tijera', data)
+        });
+
+    }
+    //Generar un avatar aleatorio para el Usuario
+
+    function generarAvatarAleatorio() {
+      return new Promise((resolve, reject) => {
+        fetch(`${url}/games/avatars`)
+          .then(response => {
+            if (!response.ok) {
+              reject(new Error(response.status));
+            }
+            return response.json();
+          })
+          .then(avatar => {
+            if (avatar.length > 0) {
+              const randomizer = avatar[Math.floor(Math.random() * avatar.length)];
+              document.getElementById('avatar').src = randomizer;
+              resolve();
+            }
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    }
+    generarAvatarAleatorio(); // Apenas cargue la pagina se le va a asignar un  avatar aleatorio al jugador
+
+    // Funcion para "cambiar" de pagina dentro de un mismo html
+    function openPage(pageName) {
+      var i;
+      var x = document.getElementsByClassName("page");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+      }
+      document.getElementById(pageName).style.display = "block";
+    }
+
+    // Socket
+    function abrirSocket(gameId) {
+      const eventSource = new EventSource(`${url}/games/${gameId}/notifications`);
+
+      var id = document.getElementById('gameId').value
+
+      eventSource.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        document.getElementById('result').textContent = data.result;
+        //console.log('Mensaje del servidor:', data);
+        if (id == data.id) {
+          document.getElementById('server').value = data['message']  // Por alguna razón los mensajes solo se muestran del lado del jugador que se unió y no de quien lo creó
+        }
+        consultarJugador();
+      };
+
+      eventSource.onerror = function (error) {
+        console.error('Error en SSE:', error);
+        eventSource.close();
+      };
+    }
+
+  </script>
+
+</body>
+
+</html>
